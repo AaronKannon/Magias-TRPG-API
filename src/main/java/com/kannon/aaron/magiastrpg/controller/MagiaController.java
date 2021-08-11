@@ -1,12 +1,8 @@
 package com.kannon.aaron.magiastrpg.controller;
 
-import com.kannon.aaron.magiastrpg.Service.AlvoAreaEfeitoService;
-import com.kannon.aaron.magiastrpg.Service.DuracaoService;
-import com.kannon.aaron.magiastrpg.Service.MagiaService;
-import com.kannon.aaron.magiastrpg.Service.ResistenciaService;
-import com.kannon.aaron.magiastrpg.controller.check.CheckAlvoAreaEfeito;
-import com.kannon.aaron.magiastrpg.controller.check.CheckDuracao;
-import com.kannon.aaron.magiastrpg.controller.check.CheckResistencia;
+import com.kannon.aaron.magiastrpg.Service.*;
+import com.kannon.aaron.magiastrpg.controller.check.*;
+import com.kannon.aaron.magiastrpg.model.Alcance;
 import com.kannon.aaron.magiastrpg.model.Magia;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,7 +27,23 @@ public class MagiaController {
     @Autowired
     AlvoAreaEfeitoService alvoAreaEfeitoService;
 
+    @Autowired
+    AlcanceService alcanceService;
+
+    @Autowired
+    ExecucaoService execucaoService;
+
+    @Autowired
+    NivelService nivelService;
+
+    @Autowired
+    EscolaService escolaService;
+
     //Checkers
+    CheckEscola escola = new CheckEscola();
+    CheckNivel nivel = new CheckNivel();
+    CheckExecucao execucao = new CheckExecucao();
+    CheckAlcance alcance = new CheckAlcance();
     CheckAlvoAreaEfeito alvoAreaEfeito = new CheckAlvoAreaEfeito();
     CheckDuracao duracao = new CheckDuracao();
     CheckResistencia resistencia = new CheckResistencia();
@@ -75,6 +87,18 @@ public class MagiaController {
 
     public Magia checkExistance(Magia magia) {
 
+        //Check Escola
+        magia = escola.onCreate(getMagiaList().iterator(),magia);
+
+        //Check Nivel
+        magia = nivel.onCreate(getMagiaList().iterator(),magia);
+
+        //Check Execucao
+        magia = execucao.onCreate(getMagiaList().iterator(),magia);
+
+        //Check Alcance
+        magia = alcance.onCreate(getMagiaList().iterator(),magia);
+
         //Check AlvoAreaEfeito
         magia = alvoAreaEfeito.onCreate(getMagiaList().iterator(),magia);
 
@@ -99,6 +123,18 @@ public class MagiaController {
 
     public void checkDelete(Magia check) {
         Iterator<Magia> iterator  = getMagiaList().iterator();
+
+        //Check Nivel
+        escola.onDelete(check.getNivel().getEscola().getId(),iterator, escolaService);
+
+        //Check Nivel
+        nivel.onDelete(check.getNivel().getId(),iterator, nivelService);
+
+        //Check Execucao
+        execucao.onDelete(check.getExecucao().getId(),iterator, execucaoService);
+
+        //Check Alcance
+        alcance.onDelete(check.getAlcance().getId(),iterator, alcanceService);
 
         //Check AlvoAreaEfeito
         alvoAreaEfeito.onDelete(check.getAlvoAreaEfeito().getId(),iterator, alvoAreaEfeitoService);

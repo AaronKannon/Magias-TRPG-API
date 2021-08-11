@@ -16,7 +16,7 @@ public class CheckAlvoAreaEfeito implements CheckCreateAndDelete{
             if (check.getAlvoAreaEfeito().getTipoAlvoAreaEfeito().equals(magia.getAlvoAreaEfeito().getTipoAlvoAreaEfeito()) &&
                     check.getAlvoAreaEfeito().getDescricao().equals(magia.getAlvoAreaEfeito().getDescricao()) ) {
                 System.out.println("Already exists - onCreate(AlvoAreaEfeito)");
-                magia.setResistencia(check.getResistencia());
+                magia.setAlvoAreaEfeito(check.getAlvoAreaEfeito());
             }
         }
         return magia;
