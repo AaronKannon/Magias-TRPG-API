@@ -1,8 +1,12 @@
 package com.kannon.aaron.magiastrpg.controller;
 
+import com.kannon.aaron.magiastrpg.Service.AlvoAreaEfeitoService;
+import com.kannon.aaron.magiastrpg.Service.DuracaoService;
 import com.kannon.aaron.magiastrpg.Service.MagiaService;
 import com.kannon.aaron.magiastrpg.Service.ResistenciaService;
-import com.kannon.aaron.magiastrpg.controller.ondelete.OnDeleteMagiaDeleteResistencia;
+import com.kannon.aaron.magiastrpg.controller.check.CheckAlvoAreaEfeito;
+import com.kannon.aaron.magiastrpg.controller.check.CheckDuracao;
+import com.kannon.aaron.magiastrpg.controller.check.CheckResistencia;
 import com.kannon.aaron.magiastrpg.model.Magia;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +24,17 @@ public class MagiaController {
 
     @Autowired
     ResistenciaService resistenciaService;
+
+    @Autowired
+    DuracaoService duracaoService;
+
+    @Autowired
+    AlvoAreaEfeitoService alvoAreaEfeitoService;
+
+    //Checkers
+    CheckAlvoAreaEfeito alvoAreaEfeito = new CheckAlvoAreaEfeito();
+    CheckDuracao duracao = new CheckDuracao();
+    CheckResistencia resistencia = new CheckResistencia();
 
     @PostMapping
     public Magia createMagia(@RequestBody Magia magia) {
@@ -48,13 +63,9 @@ public class MagiaController {
         Magia teste = null;
         try {
             teste = magiaService.getById(idMagia).get();
-            //if (!teste.getResistencia().getId().equals(idMagia)) {
-            //    teste.setResistencia(null);
-            //    updateMagia(teste);
-            //}
             magiaService.deleteMagia(idMagia);
-            System.out.println("IDResistencia: "+teste.getResistencia().getId());
-            checkDelete(teste.getResistencia().getId());
+            //System.out.println("IDResistencia: "+teste.getResistencia().getId());
+            checkDelete(teste);
         } catch(Exception e) {
             System.out.println(e.getMessage());
             System.out.println(HttpStatus.CONFLICT);
@@ -63,7 +74,18 @@ public class MagiaController {
     }
 
     public Magia checkExistance(Magia magia) {
-        Iterator<Magia> iterator  = getMagiaList().iterator();
+
+        //Check AlvoAreaEfeito
+        magia = alvoAreaEfeito.onCreate(getMagiaList().iterator(),magia);
+
+        //Check Duracao
+        magia = duracao.onCreate(getMagiaList().iterator(),magia);
+
+        //Check Resistencia
+        magia = resistencia.onCreate(getMagiaList().iterator(),magia);
+
+        return magia;
+        /*Iterator<Magia> iterator  = getMagiaList().iterator();
         while (iterator.hasNext()) {
             Magia check = iterator.next();
             //System.out.println(check.toString());
@@ -72,15 +94,20 @@ public class MagiaController {
                 magia.setResistencia(check.getResistencia());
             }
         }
-        return magia;
+        return magia;*/
     }
 
-    public void checkDelete(long id) {
+    public void checkDelete(Magia check) {
         Iterator<Magia> iterator  = getMagiaList().iterator();
 
-        OnDeleteMagiaDeleteResistencia delete = new OnDeleteMagiaDeleteResistencia();
-        delete.checkResistencia(id,iterator, resistenciaService);
+        //Check AlvoAreaEfeito
+        alvoAreaEfeito.onDelete(check.getAlvoAreaEfeito().getId(),iterator, alvoAreaEfeitoService);
 
+        //Check Duracao
+        duracao.onDelete(check.getDuracao().getId(),iterator, duracaoService);
+
+        //Check Resistencia
+        resistencia.onDelete(check.getResistencia().getId(),iterator, resistenciaService);
         /*Iterator<Magia> iterator  = getMagiaList().iterator();
         boolean existir = false;
         while (iterator.hasNext() && existir==false) {
