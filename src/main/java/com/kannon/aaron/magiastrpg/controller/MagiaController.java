@@ -19,7 +19,7 @@ public class MagiaController {
     MagiaService magiaService;
 
     @Autowired
-    ResistenciaService callDelete;
+    ResistenciaService resistenciaService;
 
     @PostMapping
     public Magia createMagia(@RequestBody Magia magia) {
@@ -45,9 +45,9 @@ public class MagiaController {
 
     @DeleteMapping("/{idMagia}")
     public ResponseEntity<Magia> deleteById(@PathVariable("idMagia") long idMagia) {
-        ResponseEntity<Magia> deletar = null;
+        Magia teste = null;
         try {
-            Magia teste = magiaService.getById(idMagia).get();
+            teste = magiaService.getById(idMagia).get();
             //if (!teste.getResistencia().getId().equals(idMagia)) {
             //    teste.setResistencia(null);
             //    updateMagia(teste);
@@ -55,12 +55,11 @@ public class MagiaController {
             magiaService.deleteMagia(idMagia);
             System.out.println("IDResistencia: "+teste.getResistencia().getId());
             checkDelete(teste.getResistencia().getId());
-            deletar = (ResponseEntity<Magia>) ResponseEntity.ok();
         } catch(Exception e) {
             System.out.println(e.getMessage());
             System.out.println(HttpStatus.CONFLICT);
         }
-        return deletar;
+        return ResponseEntity.ok(teste);
     }
 
     public Magia checkExistance(Magia magia) {
@@ -78,8 +77,10 @@ public class MagiaController {
 
     public void checkDelete(long id) {
         Iterator<Magia> iterator  = getMagiaList().iterator();
+
         OnDeleteMagiaDeleteResistencia delete = new OnDeleteMagiaDeleteResistencia();
-        delete.checkResistencia(id,iterator, callDelete);
+        delete.checkResistencia(id,iterator, resistenciaService);
+
         /*Iterator<Magia> iterator  = getMagiaList().iterator();
         boolean existir = false;
         while (iterator.hasNext() && existir==false) {
