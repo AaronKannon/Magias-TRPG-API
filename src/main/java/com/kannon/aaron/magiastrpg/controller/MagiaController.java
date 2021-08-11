@@ -1,8 +1,7 @@
 package com.kannon.aaron.magiastrpg.controller;
 
-import com.kannon.aaron.magiastrpg.Service.*;
+import com.kannon.aaron.magiastrpg.service.*;
 import com.kannon.aaron.magiastrpg.controller.check.*;
-import com.kannon.aaron.magiastrpg.model.Alcance;
 import com.kannon.aaron.magiastrpg.model.Magia;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -1,9 +1,7 @@
-package com.kannon.aaron.magiastrpg.Service;
+package com.kannon.aaron.magiastrpg.service;
 
 import com.kannon.aaron.magiastrpg.model.Alcance;
-import com.kannon.aaron.magiastrpg.model.AlvoAreaEfeito;
 import com.kannon.aaron.magiastrpg.repository.AlcanceRepository;
-import com.kannon.aaron.magiastrpg.repository.AlvoAreaEfeitoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

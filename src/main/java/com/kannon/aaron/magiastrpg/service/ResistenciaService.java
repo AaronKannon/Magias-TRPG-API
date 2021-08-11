@@ -1,8 +1,6 @@
-package com.kannon.aaron.magiastrpg.Service;
+package com.kannon.aaron.magiastrpg.service;
 
-import com.kannon.aaron.magiastrpg.model.Magia;
 import com.kannon.aaron.magiastrpg.model.Resistencia;
-import com.kannon.aaron.magiastrpg.repository.MagiaRepository;
 import com.kannon.aaron.magiastrpg.repository.ResistenciaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

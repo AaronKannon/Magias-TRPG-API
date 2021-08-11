@@ -1,9 +1,7 @@
-package com.kannon.aaron.magiastrpg.Service;
+package com.kannon.aaron.magiastrpg.service;
 
 import com.kannon.aaron.magiastrpg.model.Escola;
-import com.kannon.aaron.magiastrpg.model.Nivel;
 import com.kannon.aaron.magiastrpg.repository.EscolaRepository;
-import com.kannon.aaron.magiastrpg.repository.NivelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

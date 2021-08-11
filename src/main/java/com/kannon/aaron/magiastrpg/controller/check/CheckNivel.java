@@ -1,8 +1,6 @@
 package com.kannon.aaron.magiastrpg.controller.check;
 
-import com.kannon.aaron.magiastrpg.Service.AlcanceService;
-import com.kannon.aaron.magiastrpg.Service.EscolaService;
-import com.kannon.aaron.magiastrpg.Service.NivelService;
+import com.kannon.aaron.magiastrpg.service.NivelService;
 import com.kannon.aaron.magiastrpg.model.Magia;
 
 import java.util.Iterator;

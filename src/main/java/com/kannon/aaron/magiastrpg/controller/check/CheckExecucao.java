@@ -1,6 +1,6 @@
 package com.kannon.aaron.magiastrpg.controller.check;
 
-import com.kannon.aaron.magiastrpg.Service.ExecucaoService;
+import com.kannon.aaron.magiastrpg.service.ExecucaoService;
 import com.kannon.aaron.magiastrpg.model.Magia;
 
 import java.util.Iterator;

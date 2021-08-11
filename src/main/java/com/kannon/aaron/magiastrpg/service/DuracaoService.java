@@ -1,9 +1,7 @@
-package com.kannon.aaron.magiastrpg.Service;
+package com.kannon.aaron.magiastrpg.service;
 
 import com.kannon.aaron.magiastrpg.model.Duracao;
-import com.kannon.aaron.magiastrpg.model.Resistencia;
 import com.kannon.aaron.magiastrpg.repository.DuracaoRepository;
-import com.kannon.aaron.magiastrpg.repository.ResistenciaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

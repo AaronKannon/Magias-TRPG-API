@@ -1,4 +1,4 @@
-package com.kannon.aaron.magiastrpg.Service;
+package com.kannon.aaron.magiastrpg.service;
 
 import com.kannon.aaron.magiastrpg.model.Magia;
 import com.kannon.aaron.magiastrpg.repository.MagiaRepository;
