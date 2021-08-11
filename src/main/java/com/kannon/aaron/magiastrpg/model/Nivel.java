@@ -10,6 +10,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
+@ToString
 @Builder
 @Entity
 @Audited
@@ -20,7 +21,8 @@ public class Nivel {
     private Long id;
     private boolean arcano;
     private boolean divino;
-    @OneToOne(cascade=CascadeType.PERSIST )
+    @ManyToOne(cascade=CascadeType.PERSIST )
+    @JoinColumn(nullable = true)
     private Escola escola;
     private int valorNivel;
 }

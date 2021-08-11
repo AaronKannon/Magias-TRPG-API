@@ -17,6 +17,13 @@ public class Alcance {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(unique = true)
     private String tipoAlcance;
+
+    @Override
+    public String toString() {
+        return "Alcance{" +
+                "id=" + id +
+                ", tipoAlcance='" + tipoAlcance + '\'' +
+                '}';
+    }
 }

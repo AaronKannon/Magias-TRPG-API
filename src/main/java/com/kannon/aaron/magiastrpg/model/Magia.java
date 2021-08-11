@@ -10,6 +10,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
+@ToString
 @Builder
 @Entity
 @Audited
@@ -18,17 +19,23 @@ public class Magia {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
-    @OneToOne(cascade=CascadeType.PERSIST )
+    @ManyToOne(cascade=CascadeType.PERSIST)
+    @JoinColumn(nullable = true)
     private Nivel nivel;
-    @OneToOne(cascade=CascadeType.PERSIST, optional = true)
+    @ManyToOne(cascade=CascadeType.PERSIST, optional = true)
+    @JoinColumn(nullable = true)
     private Execucao execucao;
-    @OneToOne(cascade=CascadeType.PERSIST, optional = true)
+    @ManyToOne(cascade=CascadeType.PERSIST, optional = true)
+    @JoinColumn(nullable = true)
     private Alcance alcance;
-    @OneToOne(cascade=CascadeType.PERSIST, optional = true)
+    @ManyToOne(cascade=CascadeType.PERSIST, optional = true)
+    @JoinColumn(nullable = true)
     private AlvoAreaEfeito alvoAreaEfeito;
-    @OneToOne(cascade=CascadeType.PERSIST, optional = true)
+    @ManyToOne(cascade=CascadeType.PERSIST, optional = true)
+    @JoinColumn(nullable = true)
     private Duracao duracao;
-    @OneToOne(cascade=CascadeType.PERSIST, optional = true)
+    @ManyToOne(cascade=CascadeType.PERSIST, optional = true)
+    @JoinColumn(nullable = true)
     private Resistencia resistencia;
     private String fonte;
     @Column(columnDefinition="TEXT",length = 2500)

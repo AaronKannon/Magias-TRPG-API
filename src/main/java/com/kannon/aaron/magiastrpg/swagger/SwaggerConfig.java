@@ -2,6 +2,8 @@ package com.kannon.aaron.magiastrpg.swagger;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.ParameterBuilder;
 import springfox.documentation.builders.PathSelectors;
@@ -17,11 +19,17 @@ import java.util.Collections;
 
 @Configuration
 @EnableSwagger2
-public class SwaggerCongig {
+//@EnableOpenApi
+public class SwaggerConfig /*extends WebMvcConfigurationSupport*/ {
     @Bean
-    public Docket apiAdmin() {
+    public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
+                .apis(RequestHandlerSelectors.basePackage("com.kannon.aaron"))
+                .paths(PathSelectors.any())
+                .build()
+                .apiInfo(apiInfo());
+                /*.select()
                 .apis(RequestHandlerSelectors.basePackage("com.kannon.aaron"))
                 .paths(PathSelectors.ant("/**"))
                 .build()
@@ -34,18 +42,27 @@ public class SwaggerCongig {
                                         .modelRef(new ModelRef("string"))
                                         .parameterType("header")
                                         .required(false)
-                                        .build()));
+                                        .build()));*/
     }
 
     @Bean
     public ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("API-REST")
+                .title("MagiaTRPG API")
                 .description("It's an API to access the spells of the Brazilian TTRPG system TormentaRPG. All rights about the magic spells belong to Jambô Editora.")
-                .version("1.0.0")
+                .version("0.0.1")
                 .license("Apache License Version 2.0")
                 .licenseUrl("https://www.apache.org/licenses/LICENSE-2.0")
                 .contact(new Contact("AaronKannon", "https://github.com/AaronKannon", "wellingtonbmoraes@hotmail.com"))
                 .build();
     }
+
+    /*@Override
+    protected void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("swagger-ui.html")
+                .addResourceLocations("classpath:/META-INF/resources/");
+
+        registry.addResourceHandler("/webjars/**")
+                .addResourceLocations("classpath:/META-INF/resources/webjars/");
+    }*/
 }
