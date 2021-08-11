@@ -2,6 +2,7 @@ package com.kannon.aaron.magiastrpg.controller;
 
 import com.kannon.aaron.magiastrpg.Service.MagiaService;
 import com.kannon.aaron.magiastrpg.Service.ResistenciaService;
+import com.kannon.aaron.magiastrpg.controller.ondelete.OnDeleteMagiaDeleteResistencia;
 import com.kannon.aaron.magiastrpg.model.Magia;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -47,11 +48,12 @@ public class MagiaController {
         ResponseEntity<Magia> deletar = null;
         try {
             Magia teste = magiaService.getById(idMagia).get();
-            if (!teste.getResistencia().getId().equals(idMagia)) {
-                teste.setResistencia(null);
-                updateMagia(teste);
-            }
+            //if (!teste.getResistencia().getId().equals(idMagia)) {
+            //    teste.setResistencia(null);
+            //    updateMagia(teste);
+            //}
             magiaService.deleteMagia(idMagia);
+            System.out.println("IDResistencia: "+teste.getResistencia().getId());
             checkDelete(teste.getResistencia().getId());
             deletar = (ResponseEntity<Magia>) ResponseEntity.ok();
         } catch(Exception e) {
@@ -67,7 +69,7 @@ public class MagiaController {
             Magia check = iterator.next();
             //System.out.println(check.toString());
             if (check.getResistencia().getTipoResistencia().equals(magia.getResistencia().getTipoResistencia())) {
-                System.out.println("Already exists");
+                System.out.println("Already exists - checkExistance");
                 magia.setResistencia(check.getResistencia());
             }
         }
@@ -76,18 +78,21 @@ public class MagiaController {
 
     public void checkDelete(long id) {
         Iterator<Magia> iterator  = getMagiaList().iterator();
+        OnDeleteMagiaDeleteResistencia delete = new OnDeleteMagiaDeleteResistencia();
+        delete.checkResistencia(id,iterator, callDelete);
+        /*Iterator<Magia> iterator  = getMagiaList().iterator();
         boolean existir = false;
         while (iterator.hasNext() && existir==false) {
             Magia check = iterator.next();
             //System.out.println(check.toString());
             if (check.getResistencia().getId().equals(id)) {
-                System.out.println("Already exists");
+                System.out.println("Already exists - checkDelete");
                 existir = true;
             }
         }
         if (existir==false) {
             callDelete.deleteResistencia(id);
-        }
+        }*/
     }
 
 }
