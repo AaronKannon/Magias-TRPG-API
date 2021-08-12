@@ -19,7 +19,8 @@ public class CheckEscola implements CheckCreateAndDelete{
         while (iterator.hasNext()) {
             Magia check = iterator.next();
             //System.out.println(check.toString());
-            if (check.getNivel().getEscola().getTipoEscola().equals(magia.getNivel().getEscola().getTipoEscola())) {
+            if (check.getNivel().getEscola().getTipoEscola().equals(magia.getNivel().getEscola().getTipoEscola()) /*&&
+                    check.getNivel().getEscola().getTipoEscola2().equals(magia.getNivel().getEscola().getTipoEscola2())*/) {
                 System.out.println("Already exists - onCreate(Escola)");
                 magia.getNivel().setEscola(check.getNivel().getEscola());
             }
@@ -41,6 +42,7 @@ public class CheckEscola implements CheckCreateAndDelete{
             }
         }
         if (existir==false) {
+            //System.out.println(op.getById(id).toString());
             op.deleteEscola(id);
         }
     }

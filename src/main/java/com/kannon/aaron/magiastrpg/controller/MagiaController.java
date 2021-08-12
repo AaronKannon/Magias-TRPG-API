@@ -124,10 +124,10 @@ public class MagiaController {
         Iterator<Magia> iterator  = getMagiaList().iterator();
 
         //Check Nivel
-        escola.onDelete(check.getNivel().getEscola().getId(),iterator, escolaService);
-
-        //Check Nivel
         nivel.onDelete(check.getNivel().getId(),iterator, nivelService);
+
+        //Check Escola
+        escola.onDelete(check.getNivel().getEscola().getId(),iterator, escolaService);
 
         //Check Execucao
         execucao.onDelete(check.getExecucao().getId(),iterator, execucaoService);

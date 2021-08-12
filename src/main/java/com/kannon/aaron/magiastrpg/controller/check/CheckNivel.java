@@ -14,7 +14,8 @@ public class CheckNivel implements CheckCreateAndDelete{
             //System.out.println(check.toString());
             if ((check.getNivel().isArcano() == magia.getNivel().isArcano()) &&
                     (check.getNivel().isDivino() == magia.getNivel().isDivino()) &&
-                    (check.getNivel().getValorNivel() == magia.getNivel().getValorNivel())) {
+                    (check.getNivel().getNivelArcano() == magia.getNivel().getNivelArcano()) &&
+                    (check.getNivel().getNivelDivino() == magia.getNivel().getNivelDivino())) {
                 System.out.println("Already exists - onCreate(Nivel)");
                 magia.setNivel(check.getNivel());
             }

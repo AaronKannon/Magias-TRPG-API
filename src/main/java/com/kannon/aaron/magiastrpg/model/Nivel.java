@@ -1,5 +1,6 @@
 package com.kannon.aaron.magiastrpg.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.hibernate.envers.Audited;
 
@@ -24,5 +25,10 @@ public class Nivel {
     @ManyToOne(cascade=CascadeType.PERSIST )
     @JoinColumn(nullable = true)
     private Escola escola;
-    private int valorNivel;
+    @Builder.Default
+    @Column(nullable = true)
+    private int nivelArcano = -1;
+    @Builder.Default
+    @Column(nullable = true)
+    private int nivelDivino = -1;
 }

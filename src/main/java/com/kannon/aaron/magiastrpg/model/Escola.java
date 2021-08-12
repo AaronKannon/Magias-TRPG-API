@@ -19,4 +19,6 @@ public class Escola {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String tipoEscola;
+    //@Column(nullable = true)
+    //private String tipoEscola2;
 }
