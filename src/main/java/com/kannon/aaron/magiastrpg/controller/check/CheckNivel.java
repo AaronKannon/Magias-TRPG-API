@@ -1,5 +1,6 @@
 package com.kannon.aaron.magiastrpg.controller.check;
 
+import com.kannon.aaron.magiastrpg.model.Escola;
 import com.kannon.aaron.magiastrpg.service.NivelService;
 import com.kannon.aaron.magiastrpg.model.Magia;
 
@@ -12,12 +13,19 @@ public class CheckNivel implements CheckCreateAndDelete{
         while (iterator.hasNext()) {
             Magia check = iterator.next();
             //System.out.println(check.toString());
-            if ((check.getNivel().isArcano() == magia.getNivel().isArcano()) &&
-                    (check.getNivel().isDivino() == magia.getNivel().isDivino()) &&
-                    (check.getNivel().getNivelArcano() == magia.getNivel().getNivelArcano()) &&
-                    (check.getNivel().getNivelDivino() == magia.getNivel().getNivelDivino())) {
-                System.out.println("Already exists - onCreate(Nivel)");
-                magia.setNivel(check.getNivel());
+            try{
+                if ((check.getNivel().isArcano() == magia.getNivel().isArcano()) &&
+                        (check.getNivel().isDivino() == magia.getNivel().isDivino()) &&
+                        (check.getNivel().getNivelArcano() == magia.getNivel().getNivelArcano()) &&
+                        (check.getNivel().getNivelDivino() == magia.getNivel().getNivelDivino()) &&
+                        (check.getNivel().getEscola().getId() == magia.getNivel().getEscola().getId())) {
+                    //System.out.println("Already exists - onCreate(Nivel)");
+                    //Escola escola = magia.getNivel().getEscola();
+                    //check.getNivel().setEscola(escola);
+                    magia.setNivel(check.getNivel());
+                }
+            } catch (NullPointerException e) {
+                //System.out.println("É nulo");
             }
         }
         return magia;

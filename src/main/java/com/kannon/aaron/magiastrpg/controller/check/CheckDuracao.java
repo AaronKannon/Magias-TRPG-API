@@ -12,9 +12,13 @@ public class CheckDuracao implements CheckCreateAndDelete{
         while (iterator.hasNext()) {
             Magia check = iterator.next();
             //System.out.println(check.toString());
-            if (check.getDuracao().getTipoDuracao().equals(magia.getDuracao().getTipoDuracao())) {
-                System.out.println("Already exists - onCreate(Duracao)");
-                magia.setDuracao(check.getDuracao());
+            try{
+                if (check.getDuracao().getTipoDuracao().equals(magia.getDuracao().getTipoDuracao())) {
+                    //System.out.println("Already exists - onCreate(Duracao)");
+                    magia.setDuracao(check.getDuracao());
+                }
+            } catch (NullPointerException e) {
+                //System.out.println("É nulo");
             }
         }
         return magia;

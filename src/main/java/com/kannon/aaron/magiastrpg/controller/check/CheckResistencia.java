@@ -10,10 +10,14 @@ public class CheckResistencia implements CheckCreateAndDelete{
     public Magia onCreate(Iterator<Magia> iterator, Magia magia) {
         while (iterator.hasNext()) {
             Magia check = iterator.next();
-            //System.out.println(check.toString());
-            if (check.getResistencia().getTipoResistencia().equals(magia.getResistencia().getTipoResistencia())) {
-                System.out.println("Already exists - onCreate(Resistencia)");
-                magia.setResistencia(check.getResistencia());
+            //System.out.println("Magia para verificar: "+check.toString());
+            try {
+                if (check.getResistencia().getTipoResistencia().equals(magia.getResistencia().getTipoResistencia())) {
+                    //System.out.println("Already exists - onCreate(Resistencia)");
+                    magia.setResistencia(check.getResistencia());
+                }
+            } catch (NullPointerException e) {
+                //System.out.println("É nulo");
             }
         }
         return magia;

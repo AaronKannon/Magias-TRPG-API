@@ -1,5 +1,6 @@
 package com.kannon.aaron.magiastrpg.controller;
 
+import com.kannon.aaron.magiastrpg.controller.JSONReader.Formatter;
 import com.kannon.aaron.magiastrpg.service.*;
 import com.kannon.aaron.magiastrpg.controller.check.*;
 import com.kannon.aaron.magiastrpg.model.Magia;
@@ -8,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.FileNotFoundException;
 import java.util.*;
 
 @RestController
@@ -64,6 +66,17 @@ public class MagiaController {
         return ResponseEntity.ok(magiaService.getById(idMagia).orElseThrow(() -> new NoSuchElementException("Not found!")));
     }
 
+    @GetMapping("/buscarNome/{nomeMagia}")
+    public ResponseEntity<Magia> getMagiaByNome(@PathVariable("nomeMagia") String nomeMagia) throws NoSuchElementException {
+        List<Magia> checkList = getMagiaList();
+        ResponseEntity<Magia> result;
+
+        result = getMagiaById(checkList.indexOf(nomeMagia));
+
+        //return ResponseEntity.ok(magiaService.getById(idMagia).orElseThrow(() -> new NoSuchElementException("Not found!")));
+        return result;
+    }
+
     @PutMapping
     public Magia updateMagia(@RequestBody Magia magia) {
         return magiaService.updateMagia(magia);
@@ -82,6 +95,22 @@ public class MagiaController {
             System.out.println(HttpStatus.CONFLICT);
         }
         return ResponseEntity.ok(teste);
+    }
+
+    @GetMapping("addAll")
+    public List<Magia> addAllMagiaInDb() throws FileNotFoundException, InterruptedException {
+        Formatter formatter = new Formatter();
+
+        List<Magia> list = formatter.JSONFormatter();
+
+        Iterator<Magia> iterator = list.iterator();
+
+        while (iterator.hasNext()){
+            Magia print = iterator.next();
+            System.out.println(print.toString());
+            createMagia(print);
+        }
+        return list;
     }
 
     public Magia checkExistance(Magia magia) {

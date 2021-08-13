@@ -12,9 +12,13 @@ public class CheckAlcance implements CheckCreateAndDelete{
         while (iterator.hasNext()) {
             Magia check = iterator.next();
             //System.out.println(check.toString());
-            if (check.getAlcance().getTipoAlcance().equals(magia.getAlcance().getTipoAlcance())) {
-                System.out.println("Already exists - onCreate(Alcance)");
-                magia.setAlcance(check.getAlcance());
+            try{
+                if (check.getAlcance().getTipoAlcance().equals(magia.getAlcance().getTipoAlcance())) {
+                    //System.out.println("Already exists - onCreate(Alcance)");
+                    magia.setAlcance(check.getAlcance());
+                }
+            } catch (NullPointerException e) {
+                //System.out.println("É nulo");
             }
         }
         return magia;

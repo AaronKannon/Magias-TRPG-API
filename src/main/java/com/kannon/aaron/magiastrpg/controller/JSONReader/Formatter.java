@@ -1,5 +1,8 @@
 package com.kannon.aaron.magiastrpg.controller.JSONReader;
 
+import com.kannon.aaron.magiastrpg.controller.MagiaController;
+import com.kannon.aaron.magiastrpg.model.*;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,13 +10,13 @@ import java.util.Scanner;
 
 public class Formatter {
 
-    public void JSONFormatter() throws FileNotFoundException {
-
-        //List<String> JSONList = new ArrayList<>();
+    public List<Magia> JSONFormatter() throws FileNotFoundException {
 
         JsonFileReader jr = new JsonFileReader();
 
         Scanner sc = jr.fileToScanner();
+
+        List<Magia> allMagias = new ArrayList<>();
 
         String temp;
         String[] teste;
@@ -32,21 +35,26 @@ public class Formatter {
         String resistencia = null;
         String fonte = null;
         String descricao = null;
-        int countPrint = 0;
+
         while (sc.hasNextLine()) {
 
             temp = sc.nextLine();
             teste = temp.split("\"");
+
             // Check Nome
             if (temp.contains("Nome")) {
                 nome = teste[3];
-                //System.out.println("Nome: " + nome);
-                countPrint++;
+                //System.out.println(nome);
             }
 
             // Check Nivel
             if (temp.contains("\"Nível\": ")) {
                 nivel = teste[3];
+
+                // Check Escola
+                int inicioEscola = nivel.indexOf("(")+1;
+                int finalEscola = nivel.indexOf(")");
+                escola = nivel.substring(inicioEscola,finalEscola);
 
                 //Check Arcano Divino e Valores
                 String[] tipoMagia = nivel.split(" \\(");
@@ -61,46 +69,27 @@ public class Formatter {
 
                     nivelArcano = Integer.parseInt(arcanoPartes[1]);
                     nivelDivino = Integer.parseInt(divinoPartes[1]);
-
-                    //System.out.println("Arcano: "+ arcano +" "+ nivelArcano);
-                    //System.out.println("Divino: "+ divino +" "+ nivelDivino);
                 }else{
                     String[] partes = tipoMagia[0].split(" ");
-                    if (partes[0].equals("arcano")){
+                    //System.out.println(partes[0]);
+                    if (partes[0].equals("arcana")){
                         arcano = true;
                         nivelArcano = Integer.parseInt(partes[1]);
-                        //System.out.println("Arcano: "+ arcano +" "+ nivelArcano);
                     } else {
                         divino = true;
                         nivelDivino = Integer.parseInt(partes[1]);
-                        //System.out.println("Divino: "+ divino +" "+ nivelDivino);
                     }
-                    //System.out.println(tipoMagia[0]);
                 }
-
-                // Check Escola
-                int inicioEscola = nivel.indexOf("(")+1;
-                int finalEscola = nivel.indexOf(")");
-                escola = nivel.substring(inicioEscola,finalEscola);
-
-                countPrint++;
-
-                //System.out.println("Nivel: " + nivel);
-                //System.out.println("Escola: " + escola);
             }
 
             // Check Execucao
             if (temp.contains("\"Tempo de Execução\": ")) {
                 execucao = teste[3];
-                countPrint++;
-                //System.out.println("Execucao: "+ execucao);
             }
 
             // Check Alcance
             if (temp.contains("\"Alcance\": ")) {
                 alcance = teste[3];
-                countPrint++;
-                //System.out.println("Alcance: "+ alcance);
             }
 
             // Check AlvoAreaEfeito
@@ -109,55 +98,114 @@ public class Formatter {
                     || (temp.contains("\"Alvo ou Efeito\": ")) || (temp.contains("\"Alvo ou Alvos\": "))) {
                 tipoAlvoAreaEfeito = teste[1];
                 alvoAreaEfeito = teste[3];
-
-                countPrint++;
-                //System.out.println("TipoAlvoAreaEfeito: "+ tipoAlvoAreaEfeito);
-                //System.out.println("AlvoAreaEfeito: "+ alvoAreaEfeito);
             }
 
             // Check Duracao
             if (temp.contains("\"Duração\": ")) {
                 duracao = teste[3];
-                countPrint++;
-                //System.out.println("Duracao: "+ duracao);
             }
 
             // Check Resistencia
             if (temp.contains("\"Teste de Resistência\": ")) {
                 resistencia = teste[3];
-                countPrint++;
-                //System.out.println("Resistencia: "+ resistencia);
             }
 
             // Check Fonte
             if (temp.contains("\"Fonte\": ")) {
                 fonte = teste[3];
-                countPrint++;
-                //System.out.println("Fonte: "+ fonte);
             }
 
             // Check Descricao
             if (temp.contains("\"Descrição\": ")) {
                 descricao = teste[3];
-                countPrint++;
-                //System.out.println("Descricao: "+ descricao);
-                //System.out.println("--------");
             }
 
-            //System.out.println(countPrint);
+            if (temp.contains("}")) {
+                Magia send = new Magia();
+                send.setNome(nome);
 
-            if (countPrint==9){
-                String json = "{ \"nome\": \""+nome+"\", \"nivel\": { \"arcano\": "+arcano+", \"divino\": "+divino+", \"escola\": { \"tipoEscola\": \""+escola+"\" }, \"nivelArcano\": "+nivelArcano+", \"nivelDivino\": "+nivelDivino+", }, \"execucao\": { \"tipoExecucao\": \""+execucao+"\" }, \"alcance\": { \"tipoAlcance\": \""+alcance+"\" }, \"alvoAreaEfeito\": { \"tipoAlvoAreaEfeito\": \""+tipoAlvoAreaEfeito+"\", \"descricao\": \""+alvoAreaEfeito+"\" }, \"duracao\": { \"tipoDuracao\": \""+duracao+"\" }, \"resistencia\": { \"tipoResistencia\": \""+resistencia+"\" }, \"fonte\": \""+fonte+"\", \"descricao\": \""+descricao+"\" }";
-                System.out.println(json);
-                System.out.println("---------");
-                //JSONList.add(json);
-                countPrint = 0;
+                if (!(nivel == null)){
+                    Escola sendEscola = new Escola();
+                    sendEscola.setTipoEscola(escola);
+
+                    Nivel sendNivel = new Nivel();
+                    sendNivel.setArcano(arcano);
+                    sendNivel.setDivino(divino);
+                    sendNivel.setEscola(sendEscola);
+                    sendNivel.setNivelArcano(nivelArcano);
+                    sendNivel.setNivelDivino(nivelDivino);
+                    send.setNivel(sendNivel);
+                }
+                if (!(execucao == null)){
+                    Execucao sendExecucao = new Execucao();
+                    sendExecucao.setTipoExecucao(execucao);
+                    send.setExecucao(sendExecucao);
+                }
+                if (!(alcance == null)){
+                    Alcance sendAlcance = new Alcance();
+                    sendAlcance.setTipoAlcance(alcance);
+                    send.setAlcance(sendAlcance);
+                }
+                if (!(tipoAlvoAreaEfeito == null)){
+                    AlvoAreaEfeito sendAlvoAreaEfeito = new AlvoAreaEfeito();
+                    sendAlvoAreaEfeito.setTipoAlvoAreaEfeito(tipoAlvoAreaEfeito);
+                    sendAlvoAreaEfeito.setDescricao(alvoAreaEfeito);
+                    send.setAlvoAreaEfeito(sendAlvoAreaEfeito);
+                }
+                if (!(duracao == null)) {
+                    Duracao sendDuracao = new Duracao();
+                    sendDuracao.setTipoDuracao(duracao);
+                    send.setDuracao(sendDuracao);
+                }
+                if (!(resistencia == null)){
+                    Resistencia sendResistencia = new Resistencia();
+                    sendResistencia.setTipoResistencia(resistencia);
+                    send.setResistencia(sendResistencia);
+                }
+                if (!(fonte == null)){
+                    send.setFonte(fonte);
+                }
+                if (!(fonte == null)){
+                    send.setDescricao(descricao);
+                }
+
+                //System.out.println(send.toString());
+                allMagias.add(send);
+
+                //System.out.println(allMagias.toString());
+
+                nome = null;
+                nivel = null;
+                escola = null;
+                arcano = false;
+                divino = false;
+                nivelArcano = -1;
+                nivelDivino = -1;
+                execucao = null;
+                alcance = null;
+                tipoAlvoAreaEfeito = null;
+                alvoAreaEfeito = null;
+                duracao = null;
+                resistencia = null;
+                fonte = null;
+                descricao = null;
             }
-            //System.out.println(temp);      //returns the line that was skipped
-            //System.out.println("--------");
 
-        //System.out.println(JSONList.toString());
-
+            /*if (temp.contains("{")) {
+                send.setNome(null);
+                send.setNivel(null);
+                send.setExecucao(null);
+                send.setAlcance(null);
+                send.setAlvoAreaEfeito(null);
+                send.setDuracao(null);
+                send.setResistencia(null);
+                send.setFonte(null);
+                send.setDescricao(null);
+            }*/
         }
+        sc.close();
+        allMagias.remove(allMagias.size()-1);
+        //System.out.println(allMagias.toString());
+        return allMagias;
     }
 }

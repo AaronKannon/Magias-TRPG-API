@@ -12,10 +12,14 @@ public class CheckAlvoAreaEfeito implements CheckCreateAndDelete{
         while (iterator.hasNext()) {
             Magia check = iterator.next();
             //System.out.println(check.toString());
-            if (check.getAlvoAreaEfeito().getTipoAlvoAreaEfeito().equals(magia.getAlvoAreaEfeito().getTipoAlvoAreaEfeito()) &&
-                    check.getAlvoAreaEfeito().getDescricao().equals(magia.getAlvoAreaEfeito().getDescricao()) ) {
-                System.out.println("Already exists - onCreate(AlvoAreaEfeito)");
-                magia.setAlvoAreaEfeito(check.getAlvoAreaEfeito());
+            try{
+                if (check.getAlvoAreaEfeito().getTipoAlvoAreaEfeito().equals(magia.getAlvoAreaEfeito().getTipoAlvoAreaEfeito()) &&
+                        check.getAlvoAreaEfeito().getDescricao().equals(magia.getAlvoAreaEfeito().getDescricao()) ) {
+                    //System.out.println("Already exists - onCreate(AlvoAreaEfeito)");
+                    magia.setAlvoAreaEfeito(check.getAlvoAreaEfeito());
+                }
+            } catch (NullPointerException e) {
+                //System.out.println("É nulo");
             }
         }
         return magia;

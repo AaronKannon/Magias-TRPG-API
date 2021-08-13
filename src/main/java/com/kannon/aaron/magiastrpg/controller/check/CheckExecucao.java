@@ -12,9 +12,13 @@ public class CheckExecucao implements CheckCreateAndDelete{
         while (iterator.hasNext()) {
             Magia check = iterator.next();
             //System.out.println(check.toString());
-            if (check.getExecucao().getTipoExecucao().equals(magia.getExecucao().getTipoExecucao())) {
-                System.out.println("Already exists - onCreate(Execucao)");
-                magia.setExecucao(check.getExecucao());
+            try{
+                if (check.getExecucao().getTipoExecucao().equals(magia.getExecucao().getTipoExecucao())) {
+                    //System.out.println("Already exists - onCreate(Execucao)");
+                    magia.setExecucao(check.getExecucao());
+                }
+            } catch (NullPointerException e) {
+                //System.out.println("É nulo");
             }
         }
         return magia;
