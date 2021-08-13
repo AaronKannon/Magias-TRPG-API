@@ -31,6 +31,9 @@ With more time and calm, I will check this code to optimize and make the changes
 I want to thank the entire team at Digital Innovation Inc. and Santander for the opportunity to study.
 I come to thank RoenMidnight for the database where I got all the spells.
 
+## JSON position
+To use, copy the db.json and paste inside the C:/
+
 ## To-Do
 * Adding a working search by name (because people when playing TRPG search by the spell's name)
 * Adding text to the API page
