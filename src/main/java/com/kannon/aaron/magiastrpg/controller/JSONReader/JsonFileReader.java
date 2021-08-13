@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class JsonFileReader {
 
     public Scanner fileToScanner() throws FileNotFoundException {
-        FileInputStream fis = new FileInputStream("D:/SSDProgramas/db.json");
+        FileInputStream fis = new FileInputStream("C:/db.json");
         Scanner sc = new Scanner(fis,"UTF-8");    //file to be scanned
         return sc;
     }
