@@ -1,5 +1,7 @@
 # Magias-TRPG-API
+
 ## Português
+
 Uma API para acessar todas as magias do sistema Tormenta RPG da Jambô Editora
 
 A escolha desta base de dados se dá não só porque é algo que conheço e jogo, mas também devido a complexidade dos dados, já que os padrões das magias se diferem um ao outro fortemente. Além do fato de que teria que evitar redundancias no banco de dados.
@@ -16,6 +18,7 @@ Venho agradecer a toda equipe do Digital Innovation Inc. e ao Santander pela opo
 Venho agradecer o RoenMidnight pela base de dados onde peguei todas as magias.
 
 ## English
+
 An API to access all the spells of the Tormenta RPG system by Jambô Editora
 
 The choice of this database is not only because it's something I know and play, but also because of the complexity of the data, as the spell patterns differ from each other. And the fact that you would have to avoid database redundancies.
@@ -31,10 +34,29 @@ With more time and calm, I will check this code to optimize and make the changes
 I want to thank the entire team at Digital Innovation Inc. and Santander for the opportunity to study.
 I come to thank RoenMidnight for the database where I got all the spells.
 
-## JSON position
+## To use
+
+### JSON position
+
 To use, copy the db.json and paste inside the C:/
 
+### To execute the script in terminal:
+
+```shell script
+mvn spring-boot:run
+```
+
+### To populate the database with all the spells
+
+Use a GET requisition to the address (wait for some minutes to create all the entries):
+
+```shell script
+http://localhost:8081/magias/addAll
+```
+
 ## To-Do
+
 * Adding a working search by name (because people when playing TRPG search by the spell's name)
 * Adding text to the API page
-* Trying to optimize the code
+* Optimize the code
+* Create a front-end for access, create and search spells
